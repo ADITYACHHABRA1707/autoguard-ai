@@ -11,6 +11,71 @@
       "decision": "ROLLBACK",
       "explanation": "High risk change touching critical systems",
       "timestamp": "2025-12-13T21:51:16.812Z"
+    },
+    {
+      "prTitle": "Medium refactor of utils",
+      "signals": {
+        "filesChanged": 4,
+        "linesChanged": 200,
+        "touchesAuth": false
+      },
+      "risk": 0,
+      "decision": "APPROVE",
+      "explanation": "Low risk change",
+      "execution": "APPROVED",
+      "timestamp": "2025-12-13T21:58:57.345Z"
+    },
+    {
+      "prTitle": "Medium refactor of utils",
+      "signals": {
+        "filesChanged": 2,
+        "linesChanged": 500,
+        "touchesAuth": false
+      },
+      "risk": 0.4,
+      "decision": "AUTO_PATCH",
+      "explanation": "Moderate risk — auto-fix needed",
+      "execution": "PATCH_EXECUTED",
+      "timestamp": "2025-12-13T22:01:54.627Z"
+    },
+    {
+      "prTitle": "Medium refactor of utils",
+      "signals": {
+        "filesChanged": 1,
+        "linesChanged": 500,
+        "touchesAuth": false
+      },
+      "risk": 0.4,
+      "decision": "AUTO_PATCH",
+      "explanation": "Moderate risk — auto-fix needed",
+      "execution": "PATCH_EXECUTED",
+      "timestamp": "2025-12-13T22:03:55.150Z"
+    },
+    {
+      "prTitle": "Medium refactor of utils",
+      "signals": {
+        "filesChanged": 1,
+        "linesChanged": 350,
+        "touchesAuth": false
+      },
+      "risk": 0.4,
+      "decision": "AUTO_PATCH",
+      "explanation": "Moderate risk — auto-fix needed",
+      "execution": "PATCH_EXECUTED",
+      "timestamp": "2025-12-13T22:05:31.284Z"
+    },
+    {
+      "prTitle": "Massive auth rewrite",
+      "signals": {
+        "filesChanged": 8,
+        "linesChanged": 600,
+        "touchesAuth": true
+      },
+      "risk": 1,
+      "decision": "ROLLBACK",
+      "explanation": "High risk change touching critical systems",
+      "execution": "ROLLBACK_EXECUTED",
+      "timestamp": "2025-12-13T22:05:35.003Z"
     }
   ]
 }

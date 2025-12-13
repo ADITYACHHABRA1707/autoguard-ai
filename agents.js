@@ -1,11 +1,22 @@
 import fs from "fs";
+import { executeAction } from "./executor.js";
 
 // -------- Review Agent --------
 export function reviewPR(pr) {
+  if (typeof pr !== 'object' || pr === null) {
+    console.error("Invalid PR object provided to reviewPR");
+    return { filesChanged: 0, linesChanged: 0, touchesAuth: false };
+  }
+
+  const filesChanged = typeof pr.filesChanged === 'number' ? pr.filesChanged : 0;
+  const linesChanged = typeof pr.linesChanged === 'number' ? pr.linesChanged : 0;
+
+  const touchesAuth = Array.isArray(pr.modules) && pr.modules.includes("auth") ? true : false;
+
   return {
-    filesChanged: pr.filesChanged || 0,
-    linesChanged: pr.linesChanged || 0,
-    touchesAuth: pr.modules?.includes("auth") || false
+    filesChanged,
+    linesChanged,
+    touchesAuth
   };
 }
 
@@ -34,9 +45,40 @@ export function decideAction(risk) {
   };
 }
 
+export function actOnDecision(pr, signals, risk, decisionObj) {
+  const executionResult = executeAction(decisionObj.action, pr);
+
+  storeDecision({
+    prTitle: pr.title,
+    signals,
+    risk,
+    decision: decisionObj.action,
+    explanation: decisionObj.reason,
+    execution: executionResult,
+    timestamp: new Date().toISOString()
+  });
+
+  return executionResult;
+}
+
 // -------- Memory Agent --------
 export function storeDecision(record) {
-  const data = JSON.parse(fs.readFileSync("memory.json", "utf-8"));
-  data.history.push(record);
-  fs.writeFileSync("memory.json", JSON.stringify(data, null, 2));
+  try {
+    const data = JSON.parse(fs.readFileSync("memory.json", "utf-8"));
+    data.history.push(record);
+    fs.writeFileSync("memory.json", JSON.stringify(data, null, 2));
+  } catch (error) {
+    console.error("Error reading or writing memory.json:", error);
+    // Retry the operation once after a short delay
+    setTimeout(() => {
+      try {
+        const data = JSON.parse(fs.readFileSync("memory.json", "utf-8"));
+        data.history.push(record);
+        fs.writeFileSync("memory.json", JSON.stringify(data, null, 2));
+      } catch (retryError) {
+        console.error("Error reading or writing memory.json (retry failed):", retryError);
+      }
+    }, 500);
+  }
 }
+// TODO: Implement proper security measures for memory.json (e.g., access controls, encryption)

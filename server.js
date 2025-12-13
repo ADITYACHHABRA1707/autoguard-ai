@@ -3,7 +3,7 @@ import {
   reviewPR,
   calculateRisk,
   decideAction,
-  storeDecision
+  actOnDecision
 } from "./agents.js";
 
 const app = express();
@@ -24,21 +24,15 @@ app.post("/pr", (req, res) => {
   const risk = calculateRisk(signals);
   const decision = decideAction(risk);
 
-  storeDecision({
-    prTitle: pr.title,
-    signals,
-    risk,
-    decision: decision.action,
-    explanation: decision.reason,
-    timestamp: new Date().toISOString()
-  });
+  const execution = actOnDecision(pr, signals, risk, decision);
 
   console.log("🤖 Decision:", decision.action);
 
   res.json({
     decision: decision.action,
     explanation: decision.reason,
-    risk
+    risk,
+    execution
   });
 });
 
