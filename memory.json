@@ -1,0 +1,16 @@
+{
+  "history": [
+    {
+      "prTitle": "Refactor authentication logic",
+      "signals": {
+        "filesChanged": 6,
+        "linesChanged": 420,
+        "touchesAuth": true
+      },
+      "risk": 1,
+      "decision": "ROLLBACK",
+      "explanation": "High risk change touching critical systems",
+      "timestamp": "2025-12-13T21:51:16.812Z"
+    }
+  ]
+}
