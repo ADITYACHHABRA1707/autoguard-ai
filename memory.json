@@ -76,6 +76,19 @@
       "explanation": "High risk change touching critical systems",
       "execution": "ROLLBACK_EXECUTED",
       "timestamp": "2025-12-13T22:05:35.003Z"
+    },
+    {
+      "prTitle": "Low risk PR",
+      "signals": {
+        "filesChanged": 1,
+        "linesChanged": 50,
+        "touchesAuth": false
+      },
+      "risk": 0,
+      "decision": "APPROVE",
+      "explanation": "Low risk after learning adjustment",
+      "execution": "APPROVED",
+      "timestamp": "2025-12-13T22:14:39.438Z"
     }
   ]
 }

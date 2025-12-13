@@ -1,5 +1,6 @@
 import fs from "fs";
 import { executeAction } from "./executor.js";
+import { getPolicyBias, runRLTraining } from "./rlAgent.js";
 
 // -------- Review Agent --------
 export function reviewPR(pr) {
@@ -33,15 +34,18 @@ export function calculateRisk(signals) {
 
 // -------- Decision Agent --------
 export function decideAction(risk) {
-  if (risk < 0.3) {
-    return { action: "APPROVE", reason: "Low risk change" };
+  const bias = getPolicyBias();
+  const adjustedRisk = Math.min(Math.max(risk + bias, 0), 1);
+
+  if (adjustedRisk < 0.3) {
+    return { action: "APPROVE", reason: "Low risk after learning adjustment" };
   }
-  if (risk < 0.7) {
-    return { action: "AUTO_PATCH", reason: "Moderate risk — auto-fix needed" };
+  if (adjustedRisk < 0.7) {
+    return { action: "AUTO_PATCH", reason: "Moderate risk after learning adjustment" };
   }
   return {
     action: "ROLLBACK",
-    reason: "High risk change touching critical systems"
+    reason: "High risk after learning adjustment"
   };
 }
 
@@ -57,6 +61,8 @@ export function actOnDecision(pr, signals, risk, decisionObj) {
     execution: executionResult,
     timestamp: new Date().toISOString()
   });
+
+  runRLTraining();
 
   return executionResult;
 }
