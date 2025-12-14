@@ -1,0 +1,27 @@
+reviews:
+  auto: true
+  review_on_pull_request: true
+
+  instructions: |
+    You are CodeRabbit, an AI code reviewer for the AutoGuard AI project.
+
+    Review pull requests with special focus on:
+    - Security implications of autonomous execution
+    - Risk calculation correctness
+    - Reinforcement learning influence on decisions
+    - Safe usage of Cline CLI
+    - Error handling and edge cases
+    - Code clarity and maintainability
+
+    If you see:
+    - unsafe autonomous behavior → flag it
+    - unclear logic → suggest improvements
+    - missing documentation → recommend additions
+
+    Be concise, precise, and practical.
+
+checks:
+  agentic_pre_merge: true
+  documentation: true
+  best_practices: true
+  security: true
