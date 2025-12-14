@@ -33,6 +33,7 @@ export function calculateRisk(signals) {
 }
 
 // -------- Decision Agent --------
+// Risk thresholds may be dynamically influenced by learned RL bias over time
 export function decideAction(risk) {
   const bias = getPolicyBias();
   const adjustedRisk = Math.min(Math.max(risk + bias, 0), 1);
