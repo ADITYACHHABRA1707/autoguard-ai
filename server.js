@@ -36,6 +36,10 @@ app.post("/pr", (req, res) => {
   });
 });
 
-app.listen(3000, () => {
-  console.log("🚀 AutoGuard AI running on http://localhost:3000");
-});
+export default app;
+
+if (process.env.NODE_ENV !== "production") {
+  app.listen(3000, () => {
+    console.log("🚀 AutoGuard AI running on http://localhost:3000");
+  });
+}
